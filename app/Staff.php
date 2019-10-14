@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tourist extends Model
+class Staff extends Model
 {
     //
 }

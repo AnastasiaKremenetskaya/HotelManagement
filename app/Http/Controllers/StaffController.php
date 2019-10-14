@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Tourist;
+use App\Staff;
 use Illuminate\Http\Request;
 
-class TouristController extends Controller
+class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class TouristController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tourist  $tourist
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function show(Tourist $tourist)
+    public function show(Staff $staff)
     {
         //
     }
@@ -52,10 +52,10 @@ class TouristController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Tourist  $tourist
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tourist $tourist)
+    public function edit(Staff $staff)
     {
         //
     }
@@ -64,10 +64,10 @@ class TouristController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tourist  $tourist
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tourist $tourist)
+    public function update(Request $request, Staff $staff)
     {
         //
     }
@@ -75,10 +75,10 @@ class TouristController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tourist  $tourist
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tourist $tourist)
+    public function destroy(Staff $staff)
     {
         //
     }

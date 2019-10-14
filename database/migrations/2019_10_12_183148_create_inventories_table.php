@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTouristsTable extends Migration
+class CreateInventoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateTouristsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tourists', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('surname');
-            $table->string('patronymic');
-            $table->string('citizenship');
-            $table->date('date_of_birth');
-            $table->boolean('is_vip');
-            $table->integer('phone');
+            $table->bigInteger('room_id')->unsigned();
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateTouristsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tourists');
+        Schema::dropIfExists('inventories');
     }
 }
