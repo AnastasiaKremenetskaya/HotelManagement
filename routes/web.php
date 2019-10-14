@@ -15,8 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/index', function () {
+    return view('booking_info');
+})->name('index');
 
+Route::get('/rooms', 'RoomController@index')->name('rooms');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth', 'verified', 'role:admin'], function() {
+    Route::view('/', 'dashboard/dashboard');
+    Route::get('reservations/create/{id}', 'ReservationController@create');
+    Route::resource('reservations', 'ReservationController')->except('create');
+});

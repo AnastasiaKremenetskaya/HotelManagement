@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
-    //
+    protected $guarded = [];
+
+    public function room() {
+        return $this->belongsTo('App\Models\Room');
+    }
 }

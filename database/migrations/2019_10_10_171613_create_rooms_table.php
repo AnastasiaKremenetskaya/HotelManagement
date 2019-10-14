@@ -17,6 +17,9 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->enum('classification', ['Apartment', 'Business', 'Balcony', 'ExecutiveFloor']);
             $table->integer('roominess');
+            $table->decimal('price', 10,2);
+            $table->string('description');
+            $table->string('image');
             $table->timestamps();
         });
     }

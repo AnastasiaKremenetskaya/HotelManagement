@@ -81,11 +81,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Hotel Management System
+                    Crem Hotel
                 </div>
 
                 <div class="links">
                     <a href={{ route('home') }}>Enter admin dashboard</a>
+                    <a href={{ route('index') }}>Book a room right now!</a>
                 </div>
             </div>
         </div>

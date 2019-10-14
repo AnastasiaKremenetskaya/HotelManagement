@@ -20,4 +20,10 @@
         </div>
     </div>
 </div>
+<div class="container">
+</div> <br><br>
+<div class="row justify-content-center">
+    <a href="{{ route('index') }}" class="btn btn-primary">Book Now</a>
+</div>
+
 @endsection
