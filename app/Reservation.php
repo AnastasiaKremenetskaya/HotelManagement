@@ -9,6 +9,6 @@ class Reservation extends Model
     protected $guarded = [];
 
     public function room() {
-        return $this->belongsTo('App\Models\Room');
+        return $this->belongsTo('App\Room');
     }
 }

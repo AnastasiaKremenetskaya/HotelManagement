@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoomSeeder::class);
         $this->call(CreateSuperuserSeed::class);
+        $this->call(BreakfastsSeeder::class);
+        $this->call(ExtraServiceSeeder::class);
     }
 }

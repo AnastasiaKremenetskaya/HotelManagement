@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Breakfast;
+use App\ExtraService;
 use App\Reservation;
+use App\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -14,7 +18,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::where('user_id', \Auth::user()->getUserInfo()['sub'])
+        $reservations = Reservation::where('user_id', Auth::id())
             ->orderBy('arrival', 'asc')
             ->get();
         return view('dashboard.reservations')->with('reservations', $reservations);
@@ -23,12 +27,15 @@ class ReservationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param $room_id
      * @return \Illuminate\Http\Response
      */
-    public function create($hotel_id)
+    public function create($room_id)
     {
-        $hotelInfo = Hotel::with('rooms')->get()->find($hotel_id);
-        return view('dashboard.reservationCreate', compact('hotelInfo'));
+        $roomInfo = Room::find($room_id)->get();
+        $breakfastsInfo = Breakfast::all();
+        $extra_serviceInfo = ExtraService::all();
+        return view('dashboard.reservationCreate', compact('roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
     }
 
     /**
@@ -39,11 +46,12 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = \Auth::user()->getUserInfo()['sub'];
+        $user_id = Auth::id();
         $request->request->add(['user_id' => $user_id]);
 
         // Create the request
         Reservation::create($request->all());
+
         return redirect('dashboard/reservations')->with('success', 'Reservation created!');
     }
 
@@ -53,17 +61,15 @@ class ReservationController extends Controller
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(Reservation $reservation)
+    public function show($reservation_id)
     {
-        $reservation = Reservation::with('room', 'room.hotel')
-            ->get()
-            ->find($reservation->id);
+        $reservation = Reservation::whereId($reservation_id)->get();
 
-        if ($reservation->user_id === \Auth::user()->getUserInfo()['sub']) {
-            $hotel_id = $reservation->room->hotel_id;
-            $hotelInfo = Hotel::with('rooms')->get()->find($hotel_id);
+        if ($reservation->user_id === Auth::id()) {
+            $room_id = $reservation->room_id;
+            $roomInfo = Room::with('rooms')->get()->find($room_id);
 
-            return view('dashboard.reservationSingle', compact('reservation', 'hotelInfo'));
+            return view('dashboard.reservationSingle', compact('reservation', 'roomInfo'));
         } else
             return redirect('dashboard/reservations')->with('error', 'You are not authorized to see that.');
     }
@@ -76,14 +82,17 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $reservation = Reservation::with('room', 'room.hotel')
-            ->get()
-            ->find($reservation->id);
-        if ($reservation->user_id === \Auth::user()->getUserInfo()['sub']) {
-            $hotel_id = $reservation->room->hotel_id;
-            $hotelInfo = Hotel::with('rooms')->get()->find($hotel_id);
-            return view('dashboard.reservationEdit', compact('reservation', 'hotelInfo'));
-        } else
+        $reservation = Reservation::whereId($reservation->id)->first();
+
+        if ($reservation->user_id === Auth::id())
+        {
+            $roomInfo = Room::all();
+            $breakfastsInfo = Breakfast::all();
+            $extra_serviceInfo = ExtraService::all();
+
+            return view('dashboard.reservationEdit', compact('reservation', 'roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
+        }
+        else
             return redirect('dashboard/reservations')->with('error', 'You are not authorized to do that');
     }
 
@@ -94,11 +103,12 @@ class ReservationController extends Controller
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reservation $reservation) {
+    public function update(Request $request, Reservation $reservation)
+    {
 
-        if ($reservation->user_id != \Auth::user()->getUserInfo()['sub'])
+        if ($reservation->user_id != Auth::id())
             return redirect('dashboard/reservations')->with('error', 'You are not authorized to update this reservation');
-        $user_id = \Auth::user()->getUserInfo()['sub'];
+        $user_id = Auth::id();
         $reservation->user_id = $user_id;
         $reservation->num_of_guests = $request->num_of_guests;
         $reservation->arrival = $request->arrival;
@@ -119,7 +129,7 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         $reservation = Reservation::find($reservation->id);
-        if ($reservation->user_id === \Auth::user()->getUserInfo()['sub']) {
+        if ($reservation->user_id === Auth::id()) {
             $reservation->delete();
             return redirect('dashboard/reservations')->with('success', 'Successfully deleted your reservation!');
         } else

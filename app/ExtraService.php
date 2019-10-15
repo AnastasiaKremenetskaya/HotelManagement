@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class ExtraService extends Model
 {
     protected $guarded = [];
-    protected $table = 'rooms';
+    protected $table = 'extra_services';
 }
