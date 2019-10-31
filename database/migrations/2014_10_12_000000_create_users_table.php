@@ -16,8 +16,6 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('surname')->default('');
-            $table->string('patronymic')->default('');
             $table->string('citizenship')->default('');
             $table->date('date_of_birth')->default('2019-10-14');
             $table->boolean('is_vip')->default(false);

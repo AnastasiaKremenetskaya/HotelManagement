@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>CremHotel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -52,7 +52,7 @@
                 color: #636b6f;
                 padding: 0 25px;
                 font-size: 13px;
-                font-weight: 600;
+                font-weight: 400;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -68,12 +68,12 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Домой</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Войти</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Зарегистрироваться</a>
                         @endif
                     @endauth
                 </div>
@@ -85,8 +85,8 @@
                 </div>
 
                 <div class="links">
-                    <a href={{ route('home') }}>Enter admin dashboard</a>
-                    <a href={{ route('index') }}>Book a room right now!</a>
+                    <a href={{ route('mainAdminPage') }}>Войти в панель управления</a>
+                    <a href={{ route('index') }}>Забронировать номер!</a>
                 </div>
             </div>
         </div>

@@ -6,22 +6,29 @@ use App\Breakfast;
 use App\ExtraService;
 use App\Reservation;
 use App\Room;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
-class ReservationController extends Controller
+class ReservationController extends AdminPagesController
 {
+    private $reservationsInPage = 10;
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function index()
     {
-        $reservations = Reservation::where('user_id', Auth::id())
-            ->orderBy('arrival', 'asc')
-            ->get();
-        return view('dashboard.reservations')->with('reservations', $reservations);
+        $reservations = Reservation::orderBy('created_at', 'desc')->paginate($this->reservationsInPage);
+        return $this->renderOutputAdmin("reservations.list", [
+            "reservations" => $reservations
+        ]);
     }
 
     /**

@@ -5,13 +5,13 @@
     <div class="jumbotron text-light" style="background-image: url('https://sun9-7.userapi.com/c855036/v855036141/11776f/uVfdHwMFrAM.jpg')">
         <div class="container">
             @if(Auth::user())
-                <h1 class="display-4">Welcome back, {{ Auth::user()->name}}!</h1>
+                <h1 class="display-4">Здравствуй, {{ Auth::user()->name}}!</h1>
                 <p class="lead">To your one stop shop for reservation management.</p>
-                <a href="/dashboard" class="btn btn-success btn-lg my-2">View your Dashboard</a>
+                <a href="/dashboard" class="btn btn-success btn-lg my-2">Просмотреть свои брони</a>
             @else
-                <h1 class="display-3">Book easy in AnastasCrem Hotel!</h1>
-                <p class="lead">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam in quia natus magnam ducimus quas molestias velit vero maiores. Eaque sunt laudantium voluptas. Fugiat molestiae ipsa delectus iusto vel quod.</p>
-                <a href="/login" class="btn btn-success btn-lg my-2">Sign Up for Access to our great rooms</a>
+                <h1 class="display-3">Бронируй легко с Crem Hotel!</h1>
+                <p class="lead">Вы можете тут забронировать все что вам нужно! И отдохнуть как следует!!</p>
+                <a href="/login" class="btn btn-success btn-lg my-2">Зарегистрируйтесь для доступа к нашим великолепным комнатам</a>
             @endif
         </div>
     </div>
@@ -21,24 +21,24 @@
             <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Convenient</h5>
-                        <p class="card-text">Manage all your hotel reservations in one place</p>
+                        <h5 class="card-title">Удобно</h5>
+                        <p class="card-text">Управляй всеми бронями в одном месте</p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Best prices</h5>
-                        <p class="card-text">We have special discounts only for you</p>
+                        <h5 class="card-title">Лучшие цены</h5>
+                        <p class="card-text">Мы приготовили специальную скидку</p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Easy to use</h5>
-                        <p class="card-text">Book and manage with the click of a button</p>
+                        <h5 class="card-title">Прост в использовании</h5>
+                        <p class="card-text">Бронируй и управляй одним кликом</p>
                     </div>
                 </div>
             </div>

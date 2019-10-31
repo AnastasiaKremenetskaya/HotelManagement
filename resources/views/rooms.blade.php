@@ -13,7 +13,7 @@
                             <h5 class="card-title">{{ $room->roominess }}</h5>
                             <p class="card-text">{{ $room->description }}</p>
                             <h5 class="card-title">{{ $room->price }}</h5>
-                            <a href="/dashboard/reservations/create/{{ $room->id }}" class="btn btn-primary">Book Now</a>
+                            <a href="/dashboard/reservations/create/{{ $room->id }}" class="btn btn-primary">Забронировать</a>
                         </div>
                     </div>
                 </div>

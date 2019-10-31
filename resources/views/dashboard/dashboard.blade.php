@@ -7,18 +7,18 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Manage your Reservations</h4>
-                        <p class="card-text">Modify your current reservations.</p>
-                        <a href="/dashboard/reservations" class="btn btn-primary">My Reservations</a>
+                        <h4 class="card-title">Управляйте бронями!</h4>
+                        <p class="card-text">Измените свои текущие брони.</p>
+                        <a href="/dashboard/reservations" class="btn btn-primary">Мои брони</a>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Find a Room</h4>
-                        <p class="card-text">Browse our catalog of top-rated rooms.</p>
-                        <a href="{{ route('rooms') }}" class="btn btn-primary">Our Rooms</a>
+                        <h4 class="card-title">Найдите комнату</h4>
+                        <p class="card-text">Откройте каталог наших высококлассных комнат!</p>
+                        <a href="{{ route('rooms') }}" class="btn btn-primary">Наши комнаты</a>
                     </div>
                 </div>
             </div>
