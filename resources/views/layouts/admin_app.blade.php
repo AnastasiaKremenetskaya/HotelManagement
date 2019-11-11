@@ -6,6 +6,7 @@
     <title>CremHotel админпанель</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta name="theme-color" content="#ffffff">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
     <link rel="stylesheet" href="{{ asset("css/admin/vendor.css") }}">
     <link rel="stylesheet" href="{{ asset("css/admin/elephant.css") }}">

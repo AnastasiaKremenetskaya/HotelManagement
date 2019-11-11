@@ -92,6 +92,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'staff' => 'id_staff'
         ]
     ]);
+
+    Route::resource('/roles', 'Admin\RolesController', [
+        'names' => [
+            'index' => 'roles.index',
+            'show' => 'roles.show',
+            'create' => 'roles.create',
+            'update' => 'roles.update',
+            'edit' => 'roles.edit',
+            'store' => 'roles.store',
+            'destroy' => 'roles.destroy',
+        ],
+        'parameters' => [
+            'role' => 'id_role'
+        ]
+    ]);
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

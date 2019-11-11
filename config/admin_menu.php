@@ -8,7 +8,7 @@ return [
     ],
     [
         "name" => "Брони",
-        "ico" => "fa-shopping-basket",
+        "ico" => "fa-folder-open",
         "route" => "admin.reservations.index"
     ],
     [
@@ -18,8 +18,13 @@ return [
     ],
     [
         "name" => "Сотрудники",
-        "ico" => "fa-users",
+        "ico" => "fa-male",
         "route" => "admin.staff.index"
+    ],
+    [
+        "name" => "Должности",
+        "ico" => "fa-briefcase",
+        "route" => "admin.roles.index"
     ],
     [
         "name" => "Вернуться на сайт",
