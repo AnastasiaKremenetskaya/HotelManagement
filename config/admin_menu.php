@@ -4,31 +4,31 @@ return [
     [
         "name" => "Главная",
         "ico" => "icon-home",
-        "route" => "mainAdminPage"
+        "route" => "admin.mainAdminPage"
     ],
     [
         "name" => "Брони",
         "ico" => "fa-shopping-basket",
-        "route" => "reservations.index"
+        "route" => "admin.reservations.index"
     ],
     [
         "name" => "Клиенты",
-        "ico" => "fa-shopping-basket",
-        "route" => "reservations.index"
+        "ico" => "fa-users",
+        "route" => "admin.users.index"
     ],
     [
         "name" => "Сотрудники",
-        "ico" => "fa-shopping-basket",
-        "route" => "reservations.index"
+        "ico" => "fa-users",
+        "route" => "admin.staff.index"
     ],
     [
         "name" => "Вернуться на сайт",
         "ico" => "fa-backward",
-        "route" => "home"
+        "route" => "welcome"
     ],
     [
         "name" => "Выход",
         "ico" => "fa-times-circle",
-        "route" => "home"
+        "route" => "admin.mainAdminPage"
     ]
 ];

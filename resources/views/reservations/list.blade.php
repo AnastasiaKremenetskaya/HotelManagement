@@ -11,7 +11,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route("reservations.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить бронь</a>
+    <a href="{{ route("admin.reservations.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить бронь</a>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel">
@@ -59,16 +59,16 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route("reservations.edit", ["id_reservation" => $reservation["id"]]) }}">Изменить</a>
+                                                    <a href="{{ route("admin.reservations.edit", ["id_reservation" => $reservation["id"]]) }}">Изменить</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route("reservations.show", ["id_reservation" => $reservation["id"]]) }}">Подробно</a>
+                                                    <a href="{{ route("admin.reservations.show", ["id_reservation" => $reservation["id"]]) }}">Подробно</a>
                                                 </li>
                                                 <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"
-                                                              action="{{ route("reservations.destroy", ["id_reservation" => $reservation["id"]]) }}">
+                                                              action="{{ route("admin.reservations.destroy", ["id_reservation" => $reservation["id"]]) }}">
                                                             @csrf
                                                             @method("DELETE")
                                                         </form>

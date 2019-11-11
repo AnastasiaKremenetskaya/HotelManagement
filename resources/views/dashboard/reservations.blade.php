@@ -23,7 +23,7 @@
                     <td>{{ $reservation->room['classification'] }}</td>
                     <td>{{ $reservation->num_of_guests }}</td>
                     <td>${{ $reservation->room['price'] }}</td>
-                    <td><a href="/dashboard/reservations/{{ $reservation->id }}/edit" class="btn btn-sm btn-success">Редактировать</a></td>
+                    <td><a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-sm btn-success">Редактировать</a></td>
                 </tr>
             @endforeach
 

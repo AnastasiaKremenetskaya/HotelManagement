@@ -1,27 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Breakfast;
 use App\ExtraService;
-use App\Reservation;
+use App\Http\Controllers\AdminPagesController;
 use App\Room;
+use App\Staff;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
-class ReservationController extends StaticPagesController
+class StaffController extends AdminPagesController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    private $staffInPage = 10;
 
     /**
      * Display a listing of the resource.
@@ -30,31 +22,35 @@ class ReservationController extends StaticPagesController
      */
     public function index()
     {
-        $reservations = Reservation::where('user_id', Auth::id())
-            ->orderBy('arrival', 'asc')
-            ->get();
-
-        return view('dashboard.reservations', compact('reservations', $reservations));
+        $staff = Staff::orderBy('created_at', 'desc')->paginate($this->staffInPage);
+        return $this->renderOutputAdmin("staff.list", [
+            "staff" => $staff
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @param $id_room
+     * @param $room_id
      * @return Factory|View
      */
-    public function create($id_room)
+    public function create()
     {
-        $roomInfo = Room::find($id_room)->get();
+        $rooms = Room::all();
         $breakfastsInfo = Breakfast::all();
         $extra_serviceInfo = ExtraService::all();
-        return  $this->renderOutput('dashboard.reservationCreate', compact('roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
+        return $this->renderOutputAdmin('reservations.form', [
+            'route' => route('admin.reservations.store'),
+            'rooms' => $rooms,
+            'breakfastsInfo' => $breakfastsInfo,
+            'extra_serviceInfo' => $extra_serviceInfo
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $requesta
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,7 +61,7 @@ class ReservationController extends StaticPagesController
         // Create the request
         Reservation::create($request->all());
 
-        return redirect(route('reservations.index'))->with('success', 'Бронь создана!');
+        return redirect('dashboard/reservations')->with('success', 'Reservation created!');
     }
 
     /**
@@ -106,7 +102,7 @@ class ReservationController extends StaticPagesController
             return view('dashboard.reservationEdit', compact('reservation', 'roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
         }
         else
-            return redirect('dashboard/reservations')->with('error', 'Авторизуйтесь чтобы продолжить');
+            return redirect('dashboard/reservations')->with('error', 'You are not authorized to do that');
     }
 
     /**
@@ -119,6 +115,8 @@ class ReservationController extends StaticPagesController
     public function update(Request $request, Reservation $reservation)
     {
 
+        if ($reservation->user_id != Auth::id())
+            return redirect('dashboard/reservations')->with('error', 'You are not authorized to update this reservation');
         $user_id = Auth::id();
         $reservation->user_id = $user_id;
         $reservation->num_of_guests = $request->num_of_guests;
@@ -128,7 +126,7 @@ class ReservationController extends StaticPagesController
 
         $reservation->save();
 
-        return redirect(route('reservations.index'))->with('success', 'Успешно отредактировано!');
+        return redirect('dashboard/reservations')->with('success', 'Successfully updated your reservation!');
     }
 
     /**
@@ -139,7 +137,11 @@ class ReservationController extends StaticPagesController
      */
     public function destroy(Reservation $reservation)
     {
-        Reservation::find($reservation->id)->delete();
-        return redirect(route('reservations.index'))->with('success', 'Успешно удалено!');
+        $reservation = Reservation::find($reservation->id);
+        if ($reservation->user_id === Auth::id()) {
+            $reservation->delete();
+            return redirect('dashboard/reservations')->with('success', 'Successfully deleted your reservation!');
+        } else
+            return redirect('dashboard/reservations')->with('error', 'You are not authorized to delete this reservation');
     }
 }

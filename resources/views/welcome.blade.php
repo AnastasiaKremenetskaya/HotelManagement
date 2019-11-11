@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="links">
-                    <a href={{ route('mainAdminPage') }}>Войти в панель управления</a>
+                    <a href={{ route('admin.mainAdminPage') }}>Войти в панель управления</a>
                     <a href={{ route('index') }}>Забронировать номер!</a>
                 </div>
             </div>

@@ -7,7 +7,7 @@
             @if(Auth::user())
                 <h1 class="display-4">Здравствуй, {{ Auth::user()->name}}!</h1>
                 <p class="lead">To your one stop shop for reservation management.</p>
-                <a href="/dashboard" class="btn btn-success btn-lg my-2">Просмотреть свои брони</a>
+                <a href="{{ route('reservations.index') }}" class="btn btn-success btn-lg my-2">Просмотреть свои брони</a>
             @else
                 <h1 class="display-3">Бронируй легко с Crem Hotel!</h1>
                 <p class="lead">Вы можете тут забронировать все что вам нужно! И отдохнуть как следует!!</p>

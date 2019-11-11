@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Breakfast;
+use App\ExtraService;
 use App\Reservation;
+use App\Room;
 use Illuminate\Http\Request;
 
 class StaticPagesController extends AdminPagesController
@@ -29,13 +32,20 @@ class StaticPagesController extends AdminPagesController
 
     public function reservation()
     {
-        $reservations = Reservation::where('user_id', Auth::id())
-            ->orderBy('arrival', 'asc')
-            ->get();
-
-        return $this->renderOutput('dashboard.reservations')->with('reservations', $reservations);
+//        $reservations = Reservation::where('user_id', Auth::id())
+//            ->orderBy('arrival', 'asc')
+//            ->get();
+//
+//        return $this->renderOutput('dashboard.reservations')->with('reservations', $reservations);
     }
 
+    public function reservation_create($room_id)
+    {
+//        $roomInfo = Room::find($room_id)->get();
+//        $breakfastsInfo = Breakfast::all();
+//        $extra_serviceInfo = ExtraService::all();
+//        return  $this->renderOutput('dashboard.reservationCreate', compact('roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
+    }
 
     public function admin()
     {
