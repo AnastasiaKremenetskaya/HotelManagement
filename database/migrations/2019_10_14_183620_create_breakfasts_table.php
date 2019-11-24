@@ -15,7 +15,7 @@ class CreateBreakfastsTable extends Migration
     {
         Schema::create('breakfasts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type', ['EB','CB', 'UAI']);
+            $table->string('type');
             $table->time('time');
             $table->timestamps();
         });

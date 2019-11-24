@@ -21,7 +21,7 @@ class UsersController extends AdminPagesController
      */
     public function index(Request $request)
     {
-        $users = User::paginate($this->usersInPage);
+        $users = User::orderBy('created_at', 'desc')->paginate($this->usersInPage);
         return $this->renderOutputAdmin('users.list', [
             'users' => $users
         ]);
@@ -35,7 +35,7 @@ class UsersController extends AdminPagesController
     public function create()
     {
         return $this->renderOutputAdmin("users.form", [
-            "route" => route("users.store")
+            "route" => route("admin.users.store")
         ]);
     }
 
@@ -49,6 +49,7 @@ class UsersController extends AdminPagesController
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
+            'citizenship' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -60,10 +61,11 @@ class UsersController extends AdminPagesController
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'citizenship' => $request['citizenship'],
             'password' => Hash::make($request['password']),
         ]);
 
-        return redirect()->route("users.index")->withSuccess("Пользователь успешно добавлен");
+        return redirect()->route("admin.users.index")->withSuccess("Пользователь успешно добавлен");
     }
 
     /**
@@ -78,7 +80,7 @@ class UsersController extends AdminPagesController
 
         return $this->renderOutputAdmin("users.form", [
             "user" => $user,
-            "route" => route("users.update", ["id_user" => $id]),
+            "route" => route("admin.users.update", ["id_user" => $id]),
             "update" => true
         ]);
     }
@@ -108,7 +110,7 @@ class UsersController extends AdminPagesController
             'password' => Hash::make($request['password']),
         ]);
 
-        return redirect()->route("users.index")->withSuccess("Пользователь успешно изменен");
+        return redirect()->route("admin.users.index")->withSuccess("Пользователь успешно изменен");
     }
 
     /**
@@ -121,7 +123,7 @@ class UsersController extends AdminPagesController
     public function destroy($id)
     {
         User::whereId($id)->delete();
-        return redirect()->route("users.index")->withSuccess("Ползователь успешно удален");
+        return redirect()->route("admin.users.index")->withSuccess("Ползователь успешно удален");
     }
 
 }

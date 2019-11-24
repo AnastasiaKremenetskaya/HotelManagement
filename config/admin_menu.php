@@ -2,11 +2,6 @@
 
 return [
     [
-        "name" => "Главная",
-        "ico" => "icon-home",
-        "route" => "admin.mainAdminPage"
-    ],
-    [
         "name" => "Брони",
         "ico" => "fa-folder-open",
         "route" => "admin.reservations.index"
@@ -25,6 +20,16 @@ return [
         "name" => "Должности",
         "ico" => "fa-briefcase",
         "route" => "admin.roles.index"
+    ],
+    [
+        "name" => "Дополнительные услуги",
+        "ico" => "fa-heart",
+        "route" => "admin.extra_services.index"
+    ],
+    [
+        "name" => "Завтрак",
+        "ico" => "fa-coffee",
+        "route" => "admin.breakfasts.index"
     ],
     [
         "name" => "Вернуться на сайт",

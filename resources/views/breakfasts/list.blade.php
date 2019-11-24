@@ -3,7 +3,7 @@
 @section('content')
     <div class="title-bar">
         <h1 class="title-bar-title">
-            <span class="d-ib">Пользователи</span>
+            <span class="d-ib">Варианты завтрака</span>
         </h1>
     </div>
     @if (session('success'))
@@ -11,7 +11,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route("admin.users.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить пользователя</a>
+    <a href="{{ route("admin.breakfasts.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить тип завтрака</a>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel">
@@ -23,33 +23,29 @@
                                 <th>
                                     #
                                 </th>
-                                <th>Имя</th>
-                                <th>Гражданство</th>
-                                <th>email</th>
-                                <th>Телефон</th>
-                                <th>Дата рождения</th>
+                                <th>Название завтрака</th>
+                                <th>Время завтрака</th>
+                                <th>Дата создания</th>
+                                <th>Дата изменения</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($breakfasts as $breakfast)
                                 <tr>
                                     <td>
-                                        {{ $loop->iteration + ($users->currentpage() - 1) * $users->perpage() }}
+                                        {{ $loop->iteration + ($breakfasts->currentpage() - 1) * $breakfasts->perpage() }}
                                     </td>
                                     <td>
-                                        <strong>{{ $user['name'] }}</strong>
+                                        <strong>{{ $breakfast["type"] }}</strong>
                                     </td>
                                     <td>
-                                        <p>{{ $user['citizenship'] }}</p>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $user["email"] }} </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $user["phone"] }} </strong>
+                                        <strong>{{ $breakfast["time"] }}</strong>
                                     </td>
                                     <td class="maw-320">
-                                        <strong>{{ $user["date_of_birth"] }} </strong>
+                                        {{ $breakfast["created_at"] }}
+                                    </td>
+                                    <td>
+                                        {{ $breakfast["updated_at"] }}
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right dropdown">
@@ -59,13 +55,13 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route("admin.users.edit", ["id" => $user["id"]]) }}">Изменить</a>
+                                                    <a href="{{ route("admin.breakfasts.edit", ["id_breakfast" => $breakfast["id"]]) }}">Изменить</a>
                                                 </li>
                                                 <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"
-                                                              action="{{ route("admin.users.destroy", ["id" => $user["id"]]) }}">
+                                                              action="{{ route("admin.breakfasts.destroy", ["id_breakfast" => $breakfast["id"]]) }}">
                                                             @csrf
                                                             @method("DELETE")
                                                         </form>
@@ -82,7 +78,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="dataTables_paginate paging_simple_numbers" id="demo-dynamic-tables-2_paginate">
-                                {{ $users->render() }}
+                                {{ $breakfasts->render() }}
                             </div>
                         </div>
                     </div>

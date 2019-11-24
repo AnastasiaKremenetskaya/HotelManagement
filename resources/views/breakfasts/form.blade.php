@@ -5,9 +5,9 @@
         <h1 class="title-bar-title">
             <span class="d-ib">
                 @if($update ?? false)
-                    Изменить должность
+                    Изменить тип завтрака
                 @else
-                    Добавить должность
+                    Добавить тип завтрака
                 @endif
             </span>
         </h1>
@@ -30,7 +30,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="form-control-1">Название</label>
                         <div class="col-sm-9">
-                            <input id="name" class="form-control" name="name" value="{{ $role["name"] ?? '' }}" type="text" >
+                            <input id="type" class="form-control" name="type" value="{{ $breakfast["type"] ?? '' }}" type="text" >
+                        </div>
+                        <label class="col-sm-3 control-label" for="form-control-1">Время</label>
+                        <div class="col-sm-9">
+                            <input id="time" class="form-control" name="time" value="{{ $breakfast["time"] ?? '' }}" type="time" >
                         </div>
 
                         <label class="col-sm-3 control-label" for="form-control-1"></label>

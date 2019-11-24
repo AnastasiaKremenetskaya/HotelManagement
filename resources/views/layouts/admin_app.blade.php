@@ -19,7 +19,7 @@
 <div class="layout-header">
     <div class="navbar navbar-default">
         <div class="navbar-header">
-            <a class="navbar-brand navbar-brand-center" href="index.html">
+            <a class="navbar-brand navbar-brand-center" href="{{ route('admin.mainAdminPage') }}">
                 Админпанель
             </a>
             <button class="navbar-toggler visible-xs-block collapsed" type="button" data-toggle="collapse" data-target="#sidenav">
@@ -80,7 +80,7 @@
                             </li>
                         @endforeach
                     </ul>
-                </nav>
+                </nav>s
             </div>
         </div>
     </div>
@@ -92,8 +92,7 @@
                         <span class="d-ib">Админпанель</span>
                     </h1>
                 </div>
-
-                Тут будут графики
+                Здравствуй, администратор!
             @show
         </div>
     </div>

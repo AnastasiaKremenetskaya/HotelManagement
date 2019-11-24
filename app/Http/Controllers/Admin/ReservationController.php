@@ -7,12 +7,9 @@ use App\ExtraService;
 use App\Http\Controllers\AdminPagesController;
 use App\Reservation;
 use App\Room;
+use App\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ReservationController extends AdminPagesController
@@ -40,11 +37,13 @@ class ReservationController extends AdminPagesController
      */
     public function create()
     {
+        $users = User::all();
         $rooms = Room::all();
         $breakfastsInfo = Breakfast::all();
         $extra_serviceInfo = ExtraService::all();
         return $this->renderOutputAdmin('reservations.form', [
             'route' => route('admin.reservations.store'),
+            'users' => $users,
             'rooms' => $rooms,
             'breakfastsInfo' => $breakfastsInfo,
             'extra_serviceInfo' => $extra_serviceInfo
@@ -59,54 +58,26 @@ class ReservationController extends AdminPagesController
      */
     public function store(Request $request)
     {
-        $user_id = Auth::id();
-        $request->request->add(['user_id' => $user_id]);
-
         // Create the request
         Reservation::create($request->all());
 
-        return redirect('dashboard/reservations')->with('success', 'Reservation created!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Reservation $reservation
-     * @return \Illuminate\Http\Response
-     */
-    public function show($reservation_id)
-    {
-        $reservation = Reservation::whereId($reservation_id)->get();
-
-        if ($reservation->user_id === Auth::id()) {
-            $room_id = $reservation->room_id;
-            $roomInfo = Room::with('rooms')->get()->find($room_id);
-
-            return view('dashboard.reservationSingle', compact('reservation', 'roomInfo'));
-        } else
-            return redirect('dashboard/reservations')->with('error', 'You are not authorized to see that.');
+        return redirect()->route('admin.reservations.index')->withSuccess('Бронь успешно добавлена');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Reservation $reservation
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Factory|View
      */
-    public function edit(Reservation $reservation)
+    public function edit($id)
     {
-        $reservation = Reservation::whereId($reservation->id)->first();
-
-        if ($reservation->user_id === Auth::id())
-        {
-            $roomInfo = Room::all();
-            $breakfastsInfo = Breakfast::all();
-            $extra_serviceInfo = ExtraService::all();
-
-            return view('dashboard.reservationEdit', compact('reservation', 'roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
-        }
-        else
-            return redirect('dashboard/reservations')->with('error', 'You are not authorized to do that');
+        $reservation = Reservation::whereId($id)->first();
+        return $this->renderOutputAdmin("reservations.form", [
+            "reservation" => $reservation,
+            "route" => route("admin.reservations.update", ["id_reservation" => $id]),
+            "update" => true
+        ]);
     }
 
     /**
@@ -118,19 +89,9 @@ class ReservationController extends AdminPagesController
      */
     public function update(Request $request, Reservation $reservation)
     {
+        Reservation::whereId($reservation->id)->update($request->all());
 
-        if ($reservation->user_id != Auth::id())
-            return redirect('dashboard/reservations')->with('error', 'You are not authorized to update this reservation');
-        $user_id = Auth::id();
-        $reservation->user_id = $user_id;
-        $reservation->num_of_guests = $request->num_of_guests;
-        $reservation->arrival = $request->arrival;
-        $reservation->departure = $request->departure;
-        $reservation->room_id = $request->room_id;
-
-        $reservation->save();
-
-        return redirect('dashboard/reservations')->with('success', 'Successfully updated your reservation!');
+        return redirect()->route("admin.reservation.index")->withSuccess("Бронь успешно изменена");
     }
 
     /**
@@ -141,11 +102,8 @@ class ReservationController extends AdminPagesController
      */
     public function destroy(Reservation $reservation)
     {
-        $reservation = Reservation::find($reservation->id);
-        if ($reservation->user_id === Auth::id()) {
-            $reservation->delete();
-            return redirect('dashboard/reservations')->with('success', 'Successfully deleted your reservation!');
-        } else
-            return redirect('dashboard/reservations')->with('error', 'You are not authorized to delete this reservation');
+        Reservation::whereId($reservation->id)->destroy();
+
+        return redirect()->route("admin.reservation.index")->withSuccess("Должность успешно изменена");
     }
 }

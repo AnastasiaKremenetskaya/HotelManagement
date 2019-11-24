@@ -25,8 +25,6 @@ Route::get('/rooms', 'RoomController@index')->name('rooms');
 
 Auth::routes();
 
-//Route::get('/reservation', 'ReservationController@inde')->name('reservation');
-
 Route::get('reservations/create/{id_room}', 'ReservationController@create')->name('reservations.create');
 
 Route::resource('/reservations', 'ReservationController', [
@@ -59,7 +57,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'destroy' => 'reservations.destroy',
         ],
         'parameters' => [
-            'reservation' => 'id_reservation'
+            'reservations' => 'id_reservation'
         ]
     ]);
 
@@ -74,7 +72,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'destroy' => 'users.destroy',
         ],
         'parameters' => [
-            'user' => 'id_user'
+            'users' => 'id_user'
         ]
     ]);
 
@@ -104,7 +102,37 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'destroy' => 'roles.destroy',
         ],
         'parameters' => [
-            'role' => 'id_role'
+            'roles' => 'id_role'
+        ]
+    ]);
+
+    Route::resource('/extra_services', 'Admin\ExtraServicesController', [
+        'names' => [
+            'index' => 'extra_services.index',
+            'show' => 'extra_services.show',
+            'create' => 'extra_services.create',
+            'update' => 'extra_services.update',
+            'edit' => 'extra_services.edit',
+            'store' => 'extra_services.store',
+            'destroy' => 'extra_services.destroy',
+        ],
+        'parameters' => [
+            'extra_services' => 'id_extra_service'
+        ]
+    ]);
+
+    Route::resource('/breakfasts', 'Admin\BreakfastsController', [
+        'names' => [
+            'index' => 'breakfasts.index',
+            'show' => 'breakfasts.show',
+            'create' => 'breakfasts.create',
+            'update' => 'breakfasts.update',
+            'edit' => 'breakfasts.edit',
+            'store' => 'breakfasts.store',
+            'destroy' => 'breakfasts.destroy',
+        ],
+        'parameters' => [
+            'breakfasts' => 'id_breakfast'
         ]
     ]);
 

@@ -48,7 +48,7 @@ class ReservationController extends StaticPagesController
         $roomInfo = Room::find($id_room)->get();
         $breakfastsInfo = Breakfast::all();
         $extra_serviceInfo = ExtraService::all();
-        return  $this->renderOutput('dashboard.reservationCreate', compact('roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
+        return $this->renderOutput('dashboard.reservationCreate', compact('roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
     }
 
     /**
@@ -59,7 +59,9 @@ class ReservationController extends StaticPagesController
      */
     public function store(Request $request)
     {
-        $user_id = Auth::id();
+        if (Auth::id())
+            $user_id = Auth::id();
+
         $request->request->add(['user_id' => $user_id]);
 
         // Create the request
@@ -97,15 +99,13 @@ class ReservationController extends StaticPagesController
     {
         $reservation = Reservation::whereId($reservation->id)->first();
 
-        if ($reservation->user_id === Auth::id())
-        {
+        if ($reservation->user_id === Auth::id()) {
             $roomInfo = Room::all();
             $breakfastsInfo = Breakfast::all();
             $extra_serviceInfo = ExtraService::all();
 
             return view('dashboard.reservationEdit', compact('reservation', 'roomInfo', 'breakfastsInfo', 'extra_serviceInfo'));
-        }
-        else
+        } else
             return redirect('dashboard/reservations')->with('error', 'Авторизуйтесь чтобы продолжить');
     }
 

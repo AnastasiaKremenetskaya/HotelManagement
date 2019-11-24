@@ -5,9 +5,9 @@
         <h1 class="title-bar-title">
             <span class="d-ib">
                 @if($update ?? false)
-                    Изменить должность
+                    Изменить доп услугу
                 @else
-                    Добавить должность
+                    Добавить доп услугу
                 @endif
             </span>
         </h1>
@@ -30,9 +30,12 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="form-control-1">Название</label>
                         <div class="col-sm-9">
-                            <input id="name" class="form-control" name="name" value="{{ $role["name"] ?? '' }}" type="text" >
+                            <input id="name" class="form-control" name="name" value="{{ $extra_service["name"] ?? '' }}" type="text" >
                         </div>
-
+                        <label class="col-sm-3 control-label" for="form-control-1">Цена</label>
+                        <div class="col-sm-9">
+                            <input id="price" class="form-control" name="price" value="{{ $extra_service["price"] ?? '' }}" type="number" >
+                        </div>
                         <label class="col-sm-3 control-label" for="form-control-1"></label>
                         <div class="col-sm-9" align="right">
                             <label class="btn btn-success file-upload-btn">

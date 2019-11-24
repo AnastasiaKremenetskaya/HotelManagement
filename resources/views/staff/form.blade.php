@@ -34,10 +34,13 @@
                                    type="text">
                         </div>
 
-                        <label class="col-sm-3 control-label" for="form-control-1">Гражданство</label>
-                        <div class="col-sm-9">
-                            <input id="citizenship" class="form-control" name="citizenship" value="{{ $user["citizenship"] ?? '' }}"
-                                   type="text">
+                        <label class="col-sm-3 control-label" for="form-control-1">Должность</label>
+                        <div class="col-xs-4 col-sm-3">
+                            <select class="custom-select" name="role" id="role">
+                                @foreach($roles as $role)
+                                    <option value="{{ $role["id"] }}">{{ $role["name"] }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <label class="col-sm-3 control-label" for="form-control-1">Дата рождения</label>
@@ -46,7 +49,7 @@
                                    type="date">
                         </div>
 
-                        <label class="col-sm-3 control-label">Обладает статусом VIP?</label>
+                        <label class="col-sm-3 control-label">Зарплата</label>
                         <div class="col-xs-4 col-sm-3">
                             <div class="input-group form_element">
                                 <div class="slideTwo">

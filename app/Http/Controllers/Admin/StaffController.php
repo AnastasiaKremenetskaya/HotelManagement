@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminPagesController;
+use App\Role;
 use App\Staff;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -33,9 +34,11 @@ class StaffController extends AdminPagesController
      */
     public function create()
     {
+        $roles = Role::all();
 
         return $this->renderOutputAdmin('staff.form', [
             'route' => route('admin.staff.store'),
+            'roles' => $roles
         ]);
     }
 
@@ -61,9 +64,12 @@ class StaffController extends AdminPagesController
      */
     public function edit($id)
     {
+        $roles = Role::all();
         $staff = Staff::whereId($id)->first();
+
         return $this->renderOutputAdmin("staff.form", [
             "staff" => $staff,
+            'roles' => $roles,
             "route" => route("admin.staff.update", ["id_staff" => $id]),
             "update" => true
         ]);
