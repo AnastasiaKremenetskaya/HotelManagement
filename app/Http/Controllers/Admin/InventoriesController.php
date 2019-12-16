@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminPagesController;
-use App\Role;
+use App\Inventory;
+use App\Room;
 use Illuminate\Http\Request;
 
-class RolesController extends AdminPagesController
+class InventoriesController extends AdminPagesController
 {
-    private $staffInPage = 10;
+    private $inventoriesInPage = 10;
 
     /**
      * Display a listing of the resource.
@@ -17,9 +18,9 @@ class RolesController extends AdminPagesController
      */
     public function index()
     {
-        $roles = Role::orderBy('created_at', 'desc')->paginate($this->staffInPage);
-        return $this->renderOutputAdmin("roles.list", [
-            "roles" => $roles
+        $inventories = Inventory::orderBy('created_at', 'desc')->paginate($this->inventoriesInPage);
+        return $this->renderOutputAdmin("inventories.list", [
+            "inventories" => $inventories
         ]);
     }
 
@@ -31,9 +32,11 @@ class RolesController extends AdminPagesController
      */
     public function create()
     {
+        $rooms = Room::all();
 
-        return $this->renderOutputAdmin('roles.form', [
-            'route' => route('admin.roles.store'),
+        return $this->renderOutputAdmin('inventories.form', [
+            'rooms' => $rooms,
+            'route' => route('admin.inventories.store'),
         ]);
     }
 
@@ -46,9 +49,9 @@ class RolesController extends AdminPagesController
     public function store(Request $request)
     {
         // Create the request
-        Role::create($request->all());
+        Inventory::create($request->all());
 
-        return redirect()->route("admin.roles.index")->withSuccess("Должность успешно добавлена");
+        return redirect()->route("admin.inventories.index")->withSuccess("Инвентарь успешно добавлен");
     }
 
     /**
@@ -59,10 +62,13 @@ class RolesController extends AdminPagesController
      */
     public function edit($id)
     {
-        $role = Role::whereId($id)->first();
-        return $this->renderOutputAdmin("roles.form", [
-            "role" => $role,
-            "route" => route("admin.roles.update", ["id_role" => $id]),
+        $inventory = Inventory::whereId($id)->first();
+        $rooms = Room::all();
+
+        return $this->renderOutputAdmin("inventories.form", [
+            'rooms' => $rooms,
+            "inventory" => $inventory,
+            "route" => route("admin.inventories.update", ["id_inventory" => $id]),
             "update" => true
         ]);
     }
@@ -77,11 +83,9 @@ class RolesController extends AdminPagesController
     public function update(Request $request, $id)
     {
 
-        Role::whereId($id)->update([
-            'name' => $request->name,
-        ]);
+        Inventory::whereId($id)->update($request->all());
 
-        return redirect()->route("admin.roles.index")->withSuccess("Работник успешно изменен");
+        return redirect()->route("admin.inventories.index")->withSuccess("Инвентарь успешно изменен");
     }
 
     /**
@@ -90,10 +94,9 @@ class RolesController extends AdminPagesController
      * @param Role $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
-        Role::whereId($role->id)->delete();
+        Inventory::whereId($id)->delete();
 
-        return redirect()->route("admin.roles.index")->withSuccess("Должность успешно изменена");
-    }
-}
+        return redirect()->route("admin.inventories.index")->withSuccess("Инвентарь успешно удален");
+    }}

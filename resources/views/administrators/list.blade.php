@@ -3,7 +3,7 @@
 @section('content')
     <div class="title-bar">
         <h1 class="title-bar-title">
-            <span class="d-ib">Сотрудники</span>
+            <span class="d-ib">Администраторы</span>
         </h1>
     </div>
     @if (session('success'))
@@ -11,7 +11,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route("admin.staff.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить сотрудника</a>
+    <a href="{{ route("admin.administrators.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить администратора</a>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel">
@@ -23,33 +23,25 @@
                                 <th>
                                     #
                                 </th>
-                                <th>Имя</th>
-                                <th>Должность</th>
-                                <th>Зарплата</th>
-                                <th>Телефон</th>
-                                <th>Дата рождения</th>
+                                <th>Администраторы</th>
+                                <th>Дата создания</th>
+                                <th>Дата изменения</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($staff as $one_staff)
+                            @foreach($administrators as $administrator)
                                 <tr>
                                     <td>
-                                        {{ $loop->iteration + ($staff->currentpage() - 1) * $staff->perpage() }}
+                                        {{ $loop->iteration + ($administrators->currentpage() - 1) * $administrators->perpage() }}
                                     </td>
                                     <td>
-                                        <strong>{{ $one_staff['name'] }}</strong>
-                                    </td>
-                                    <td>
-                                        <p>{{ $one_staff->role->name }}</p>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $one_staff["salary"] }} </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $one_staff["phone"] }} </strong>
+                                        <strong>{{ $administrator->staff->name }}</strong>
                                     </td>
                                     <td class="maw-320">
-                                        <strong>{{ $one_staff["date_of_birth"] }} </strong>
+                                        {{ $administrator["created_at"] }}
+                                    </td>
+                                    <td>
+                                        {{ $administrator["updated_at"] }}
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right dropdown">
@@ -59,13 +51,13 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route("admin.staff.edit", ["id" => $one_staff["id"]]) }}">Изменить</a>
+                                                    <a href="{{ route("admin.administrators.edit", ["id" => $administrator["id"]]) }}">Изменить</a>
                                                 </li>
                                                 <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"
-                                                              action="{{ route("admin.staff.destroy", ["id" => $one_staff["id"]]) }}">
+                                                              action="{{ route("admin.administrators.destroy", ["id" => $administrator["id"]]) }}">
                                                             @csrf
                                                             @method("DELETE")
                                                         </form>
@@ -82,7 +74,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="dataTables_paginate paging_simple_numbers" id="demo-dynamic-tables-2_paginate">
-                                {{ $staff->render() }}
+                                {{ $administrators->render() }}
                             </div>
                         </div>
                     </div>

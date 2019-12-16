@@ -17,7 +17,7 @@
             <div class="panel">
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table id="demo-dynamic-tables-1" class="table table-middle nowrap">
+                        <table id="table_id" class="display">
                             <thead>
                             <tr>
                                 <th>
@@ -33,19 +33,19 @@
                             @foreach($breakfasts as $breakfast)
                                 <tr>
                                     <td>
-                                        {{ $loop->iteration + ($breakfasts->currentpage() - 1) * $breakfasts->perpage() }}
+                                        {{ $loop->iteration }}
                                     </td>
                                     <td>
-                                        <strong>{{ $breakfast["type"] }}</strong>
+                                        <strong>{{ $breakfast->type }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $breakfast["time"] }}</strong>
+                                        <strong>{{ $breakfast->time }}</strong>
                                     </td>
                                     <td class="maw-320">
-                                        {{ $breakfast["created_at"] }}
+                                        {{ $breakfast->created_at }}
                                     </td>
                                     <td>
-                                        {{ $breakfast["updated_at"] }}
+                                        {{ $breakfast->updated_at }}
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right dropdown">
@@ -55,13 +55,13 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route("admin.breakfasts.edit", ["id_breakfast" => $breakfast["id"]]) }}">Изменить</a>
+                                                    <a href="{{ route("admin.breakfasts.edit", ["id_breakfast" => $breakfast->id]) }}">Изменить</a>
                                                 </li>
                                                 <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"
-                                                              action="{{ route("admin.breakfasts.destroy", ["id_breakfast" => $breakfast["id"]]) }}">
+                                                              action="{{ route("admin.breakfasts.destroy", ["id_breakfast" => $breakfast->id]) }}">
                                                             @csrf
                                                             @method("DELETE")
                                                         </form>
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="dataTables_paginate paging_simple_numbers" id="demo-dynamic-tables-2_paginate">
-                                {{ $breakfasts->render() }}
+{{--                                {{ $breakfasts->render() }}--}}
                             </div>
                         </div>
                     </div>

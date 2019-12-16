@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Breakfast;
 use App\Http\Controllers\AdminPagesController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BreakfastsController extends AdminPagesController
 {
@@ -17,7 +18,7 @@ class BreakfastsController extends AdminPagesController
      */
     public function index()
     {
-        $breakfasts = Breakfast::paginate($this->breakfastsInPage);
+        $breakfasts = DB::select('SELECT * FROM breakfasts');
         return $this->renderOutputAdmin("breakfasts.list", [
             "breakfasts" => $breakfasts
         ]);
@@ -46,7 +47,8 @@ class BreakfastsController extends AdminPagesController
     public function store(Request $request)
     {
         // Create the request
-        Breakfast::create($request->all());
+        DB::insert('INSERT INTO breakfasts VALUES ('.implode(",", $request->all()));
+        //Breakfast::create($request->all());
 
         return redirect()->route("admin.breakfasts.index")->withSuccess("Тип завтрака успешно добавлен");
     }
@@ -59,7 +61,8 @@ class BreakfastsController extends AdminPagesController
      */
     public function edit($id)
     {
-        $breakfast = Breakfast::whereId($id)->first();
+        $breakfast = DB::select('SELECT * FROM breakfasts WHERE id = '.$id);
+        //$breakfast = Breakfast::whereId($id)->first();
         return $this->renderOutputAdmin("breakfasts.form", [
             "breakfast" => $breakfast,
             "route" => route("admin.breakfasts.update", ["id_breakfast" => $id]),
@@ -81,6 +84,11 @@ class BreakfastsController extends AdminPagesController
             'type' => $request->type,
             'time' => $request->time
         ]);
+//        DB::update('UPDATE breakfasts WHERE');
+////            'type' => $request->type,
+////            'time' => $request->time
+////        ]);
+
 
         return redirect()->route("admin.breakfasts.index")->withSuccess("Тип завтрака успешно изменен");
     }
@@ -93,7 +101,7 @@ class BreakfastsController extends AdminPagesController
      */
     public function destroy($id_breakfast)
     {
-        Breakfast::whereId($id_breakfast)->destroy();
+        Breakfast::whereId($id_breakfast)->delete();
 
         return redirect()->route("admin.breakfasts.index")->withSuccess("Тип завтрака успешно удален");
     }

@@ -32,6 +32,21 @@ return [
         "route" => "admin.breakfasts.index"
     ],
     [
+        "name" => "Инвентерь",
+        "ico" => "fa-fire-extinguisher",
+        "route" => "admin.inventories.index"
+    ],
+    [
+        "name" => "Комнаты",
+        "ico" => "fa-home",
+        "route" => "admin.rooms.index"
+    ],
+    [
+        "name" => "Администраторы",
+        "ico" => "fa-male",
+        "route" => "admin.administrators.index"
+    ],
+    [
         "name" => "Вернуться на сайт",
         "ico" => "fa-backward",
         "route" => "welcome"

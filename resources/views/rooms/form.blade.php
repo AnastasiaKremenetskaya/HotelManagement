@@ -5,9 +5,9 @@
         <h1 class="title-bar-title">
             <span class="d-ib">
                 @if($update ?? false)
-                    Изменить сотрудника
+                    Изменить комнату
                 @else
-                    Добавить сотрудника
+                    Добавить комнату
                 @endif
             </span>
         </h1>
@@ -28,39 +28,38 @@
                         @method('PUT')
                     @endif
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="form-control-1">Имя</label>
+                        <label class="col-sm-3 control-label" for="form-control-1">Классификация</label>
                         <div class="col-sm-9">
-                            <input id="name" class="form-control" name="name" value="{{ $user["name"] ?? '' }}"
-                                   type="text">
-                        </div>
-
-                        <label class="col-sm-3 control-label" for="form-control-1">Должность</label>
-                        <div class="col-xs-4 col-sm-3">
-                            <select class="custom-select" name="role_id" id="role_id">
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                @endforeach
+                            <select name="classification">
+                                <option value="Apartment'">Apartment</option>
+                                <option value="Business">Business</option>
+                                <option value="Balcony">Balcony</option>
+                                <option value="ExecutiveFloor">ExecutiveFloor</option>
                             </select>
                         </div>
-
-                        <label class="col-sm-3 control-label" for="form-control-1">Дата рождения</label>
-                        <div class="col-sm-9">
-                            <input id="date_of_birth" class="form-control" name="date_of_birth" value="{{ $user["date_of_birth"] ?? '' }}"
-                                   type="date">
-                        </div>
-
-                        <label class="col-sm-3 control-label">Зарплата</label>
+                        <label class="col-sm-3 control-label">Количество комнат</label>
                         <div class="col-xs-4 col-sm-3">
-                            <input id="salary" class="form-control" name="salary" value="{{ $user["salary"] ?? '' }}"
+                            <input id="roominess" class="form-control" name="roominess" value="{{ $room["roominess"] ?? '' }}"
                                    type="number">
                         </div>
 
-                        <label class="col-sm-3 control-label" for="form-control-1">Номер телефона</label>
+                        <label class="col-sm-3 control-label" for="form-control-1">Цена</label>
                         <div class="col-sm-9">
-                            <input id="phone" class="form-control" name="phone" value="{{ $user["phone"] ?? '' }}"
-                                   type="tel">
+                            <input id="price" class="form-control" name="price" value="{{ $room["price"] ?? '' }}"
+                                   type="number">
                         </div>
 
+
+                        <label class="col-sm-3 control-label" for="form-control-1">Описание</label>
+                        <div class="col-xs-4 col-sm-3">
+                            <textarea id="description" class="form-control" name="description"> {{ $room["description"] ?? '' }}</textarea>
+                        </div>
+
+                        <label class="col-sm-3 control-label" for="form-control-1">Ссылка на фотографию</label>
+                        <div class="col-sm-9">
+                            <input id="image" class="form-control" name="image" value="{{ $room["image"] ?? '' }}"
+                                   type="text">
+                        </div>
 
                         <label class="col-sm-3 control-label" for="form-control-1"></label>
                         <div class="col-sm-9 submitBtn" align="right">

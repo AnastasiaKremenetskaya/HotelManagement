@@ -41,8 +41,11 @@ Route::resource('/reservations', 'ReservationController', [
     ]
 ])->except('create');
 
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['as' => 'charts.', 'prefix' => 'charts'], function () {
+        Route::get('/avg_salary', 'Admin\ChartsController@avg_salary')->name('avg_salary');
+        Route::get('/avg_rooms_sum', 'Admin\ChartsController@avg_rooms_sum')->name('avg_rooms_sum');
+    });
 
     Route::get('/', 'StaticPagesController@admin')->name("mainAdminPage");
 
@@ -72,7 +75,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'destroy' => 'users.destroy',
         ],
         'parameters' => [
-            'users' => 'id_user'
+            'users' => 'id'
         ]
     ]);
 
@@ -87,9 +90,25 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'destroy' => 'staff.destroy',
         ],
         'parameters' => [
-            'staff' => 'id_staff'
+            'staff' => 'id'
         ]
     ]);
+
+    Route::resource('/inventories', 'Admin\InventoriesController', [
+        'names' => [
+            'index' => 'inventories.index',
+            'show' => 'inventories.show',
+            'create' => 'inventories.create',
+            'update' => 'inventories.update',
+            'edit' => 'inventories.edit',
+            'store' => 'inventories.store',
+            'destroy' => 'inventories.destroy',
+        ],
+        'parameters' => [
+            'inventories' => 'id'
+        ]
+    ]);
+
 
     Route::resource('/roles', 'Admin\RolesController', [
         'names' => [
@@ -136,6 +155,35 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         ]
     ]);
 
+    Route::resource('/rooms', 'Admin\RoomsController', [
+        'names' => [
+            'index' => 'rooms.index',
+            'show' => 'rooms.show',
+            'create' => 'rooms.create',
+            'update' => 'rooms.update',
+            'edit' => 'rooms.edit',
+            'store' => 'rooms.store',
+            'destroy' => 'rooms.destroy',
+        ],
+        'parameters' => [
+            'rooms' => 'id'
+        ]
+    ]);
+
+    Route::resource('/administrators', 'Admin\AdministratorsController', [
+        'names' => [
+            'index' => 'administrators.index',
+            'show' => 'administrators.show',
+            'create' => 'administrators.create',
+            'update' => 'administrators.update',
+            'edit' => 'administrators.edit',
+            'store' => 'administrators.store',
+            'destroy' => 'administrators.destroy',
+        ],
+        'parameters' => [
+            'administrators' => 'id'
+        ]
+    ]);
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

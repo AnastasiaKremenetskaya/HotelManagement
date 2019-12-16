@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminPagesController;
-use App\Role;
+use App\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class RolesController extends AdminPagesController
+class RoomsController extends AdminPagesController
 {
-    private $staffInPage = 10;
+    private $roomInPage = 10;
 
     /**
      * Display a listing of the resource.
@@ -17,9 +18,9 @@ class RolesController extends AdminPagesController
      */
     public function index()
     {
-        $roles = Role::orderBy('created_at', 'desc')->paginate($this->staffInPage);
-        return $this->renderOutputAdmin("roles.list", [
-            "roles" => $roles
+        $rooms = Room::paginate($this->roomInPage);
+        return $this->renderOutputAdmin("rooms.list", [
+            "rooms" => $rooms
         ]);
     }
 
@@ -32,8 +33,8 @@ class RolesController extends AdminPagesController
     public function create()
     {
 
-        return $this->renderOutputAdmin('roles.form', [
-            'route' => route('admin.roles.store'),
+        return $this->renderOutputAdmin('rooms.form', [
+            'route' => route('admin.rooms.store'),
         ]);
     }
 
@@ -46,9 +47,9 @@ class RolesController extends AdminPagesController
     public function store(Request $request)
     {
         // Create the request
-        Role::create($request->all());
+        Room::create($request->all());
 
-        return redirect()->route("admin.roles.index")->withSuccess("Должность успешно добавлена");
+        return redirect()->route("admin.rooms.index")->withSuccess("Комната успешно добавлена");
     }
 
     /**
@@ -59,10 +60,10 @@ class RolesController extends AdminPagesController
      */
     public function edit($id)
     {
-        $role = Role::whereId($id)->first();
-        return $this->renderOutputAdmin("roles.form", [
-            "role" => $role,
-            "route" => route("admin.roles.update", ["id_role" => $id]),
+        $room = Room::whereId($id)->first();
+        return $this->renderOutputAdmin("rooms.form", [
+            "room" => $room,
+            "route" => route("admin.rooms.update", ["id_room" => $id]),
             "update" => true
         ]);
     }
@@ -74,26 +75,24 @@ class RolesController extends AdminPagesController
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Room $room)
     {
 
-        Role::whereId($id)->update([
-            'name' => $request->name,
-        ]);
+        Room::whereId($room->id)->update($request->all());
 
-        return redirect()->route("admin.roles.index")->withSuccess("Работник успешно изменен");
+        return redirect()->route("admin.rooms.index")->withSuccess("Комната изменена");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Role $role
+     * @param Role $extraService
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
-        Role::whereId($role->id)->delete();
+        Room::whereId($id)->delete();
 
-        return redirect()->route("admin.roles.index")->withSuccess("Должность успешно изменена");
+        return redirect()->route("admin.rooms.index")->withSuccess("Комната успешно удалена");
     }
 }

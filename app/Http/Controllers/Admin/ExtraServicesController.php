@@ -88,10 +88,10 @@ class ExtraServicesController extends AdminPagesController
      * @param Role $extraService
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExtraService $extraService)
+    public function destroy($id)
     {
-        ExtraService::whereId($extraService->id)->destroy();
+        ExtraService::whereId($id)->delete();
 
-        return redirect()->route("admin.roles.index")->withSuccess("Доп услуга успешно изменена");
+        return redirect()->route("admin.extra_services.index")->withSuccess("Доп услуга успешно удалена");
     }
 }

@@ -5,9 +5,9 @@
         <h1 class="title-bar-title">
             <span class="d-ib">
                 @if($update ?? false)
-                    Изменить тип завтрака
+                    Изменить администратора
                 @else
-                    Добавить тип завтрака
+                    Добавить администратора
                 @endif
             </span>
         </h1>
@@ -28,17 +28,17 @@
                         @method('PUT')
                     @endif
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="form-control-1">Название</label>
-                        <div class="col-sm-9">
-                            <input id="type" class="form-control" name="type" value="{{ $breakfast[0]->type ?? '' }}" type="text" >
-                        </div>
-                        <label class="col-sm-3 control-label" for="form-control-1">Время</label>
-                        <div class="col-sm-9">
-                            <input id="time" class="form-control" name="time" value="{{ $breakfast[0]->time ?? '' }}" type="time" >
+                        <label class="col-sm-3 control-label" for="form-control-1">Укажите работника</label>
+                        <div class="col-xs-4 col-sm-3">
+                            <select class="custom-select" name="staff_id" id="staff_id">
+                                @foreach($staff as $one_staff)
+                                    <option value="{{ $one_staff->id }}">{{ $one_staff->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <label class="col-sm-3 control-label" for="form-control-1"></label>
-                        <div class="col-sm-9" align="right">
+                        <div class="col-sm-9 submitBtn" align="right">
                             <label class="btn btn-success file-upload-btn">
                                 @if($update ?? false)
                                     Изменить
@@ -48,6 +48,7 @@
                                 <input class="file-upload-input" type="submit" multiple="">
                             </label>
                         </div>
+
                     </div>
                 </form>
             </div>

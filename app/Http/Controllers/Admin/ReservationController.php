@@ -10,6 +10,7 @@ use App\Room;
 use App\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ReservationController extends AdminPagesController
@@ -58,6 +59,15 @@ class ReservationController extends AdminPagesController
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'arrival' => 'required|date|after:yesterday',
+            'departure' => 'required|date|after:arrival',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['mess' => $validator->errors()->all(), 'success' => false], 400);
+        }
+
         // Create the request
         Reservation::create($request->all());
 
@@ -72,8 +82,18 @@ class ReservationController extends AdminPagesController
      */
     public function edit($id)
     {
+        $users = User::all();
+        $rooms = Room::all();
+        $breakfasts = Breakfast::all();
+        $extraservicesInfo = ExtraService::all();
+
         $reservation = Reservation::whereId($id)->first();
         return $this->renderOutputAdmin("reservations.form", [
+            'users' => $users,
+            'rooms' => $rooms,
+            'breakfastsInfo' => $breakfasts,
+            'extra_serviceInfo' => $extraservicesInfo,
+
             "reservation" => $reservation,
             "route" => route("admin.reservations.update", ["id_reservation" => $id]),
             "update" => true
@@ -102,7 +122,7 @@ class ReservationController extends AdminPagesController
      */
     public function destroy(Reservation $reservation)
     {
-        Reservation::whereId($reservation->id)->destroy();
+        Reservation::whereId($reservation->id)->delete();
 
         return redirect()->route("admin.reservation.index")->withSuccess("Должность успешно изменена");
     }

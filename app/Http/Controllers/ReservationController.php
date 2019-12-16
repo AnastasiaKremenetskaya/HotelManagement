@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -55,10 +56,20 @@ class ReservationController extends StaticPagesController
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $requesta
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'arrival' => 'required|date|after:yesterday',
+            'departure' => 'required|date|after:arrival',
+        ]);
+
+        if ($validator->fails()) {
+//            return self::index($request)->withErrors('Введите корректные даты');
+            return Redirect::back()->withErrors( $validator);
+        }
+
         if (Auth::id())
             $user_id = Auth::id();
 

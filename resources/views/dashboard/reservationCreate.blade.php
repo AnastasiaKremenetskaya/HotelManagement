@@ -7,6 +7,16 @@
             <div class="card-body">
                 <h5 class="card-title"></h5>
                 <p class="card-text">Бронируй сейчас в лучшем отеле мира!</p>
+                @if($errors->any())
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li style="color: red">
+                                {{ $error }}
+                            </li>
+                    @endforeach
+                    </ul>
+
+                @endif
                 <form action="{{ route('reservations.store') }}" method="POST">
                     @csrf
                     <div class="row">

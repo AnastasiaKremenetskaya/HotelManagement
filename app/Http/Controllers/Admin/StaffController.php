@@ -7,6 +7,7 @@ use App\Role;
 use App\Staff;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class StaffController extends AdminPagesController
@@ -21,6 +22,9 @@ class StaffController extends AdminPagesController
     public function index()
     {
         $staff = Staff::orderBy('created_at', 'desc')->paginate($this->staffInPage);
+
+        //$staff = DB::select('select * from staff order by created_at desc');
+
         return $this->renderOutputAdmin("staff.list", [
             "staff" => $staff
         ]);
@@ -34,8 +38,8 @@ class StaffController extends AdminPagesController
      */
     public function create()
     {
-        $roles = Role::all();
-
+        //$roles = Role::all();
+        $roles = DB::select('select * from roles');
         return $this->renderOutputAdmin('staff.form', [
             'route' => route('admin.staff.store'),
             'roles' => $roles
@@ -51,7 +55,13 @@ class StaffController extends AdminPagesController
     public function store(Request $request)
     {
         // Create the request
-        Staff::create($request->all());
+        Staff::create([
+            'name' => $request->name,
+            'role_id' => $request->role_id,
+            'date_of_birth' => $request->date_of_birth,
+            'salary' => $request->salary,
+            'phone' => $request->phone
+        ]);
 
         return redirect()->route("admin.staff.index")->withSuccess("Пользователь успешно добавлен");
     }
@@ -65,7 +75,7 @@ class StaffController extends AdminPagesController
     public function edit($id)
     {
         $roles = Role::all();
-        $staff = Staff::whereId($id)->first();
+        $staff = DB::select('select * from staff where id = :id', ['id' => $id]);//Staff::whereId($id)->first();
 
         return $this->renderOutputAdmin("staff.form", [
             "staff" => $staff,
@@ -98,7 +108,7 @@ class StaffController extends AdminPagesController
      */
     public function destroy(Staff $staff)
     {
-        Staff::whereId($staff->id)->destroy();
+        Staff::whereId($staff->id)->delete();
 
         return redirect()->route("admin.staff.index")->withSuccess("Работник успешно изменен");
     }

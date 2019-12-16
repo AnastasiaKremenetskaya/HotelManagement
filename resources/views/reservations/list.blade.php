@@ -62,9 +62,6 @@
                                                     <a href="{{ route("admin.reservations.edit", ["id_reservation" => $reservation["id"]]) }}">Изменить</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route("admin.reservations.show", ["id_reservation" => $reservation["id"]]) }}">Подробно</a>
-                                                </li>
-                                                <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"

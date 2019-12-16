@@ -13,8 +13,13 @@
     <link rel="stylesheet" href="{{ asset("css/admin/application.css") }}">
     <link rel="stylesheet" href="{{ asset("css/admin/custom.css") }}">
     <link rel="stylesheet" href="{{ asset("css/style.css") }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://kit.fontawesome.com/fea7d5cbbb.js" crossorigin="anonymous"></script>
+    <script src='{{ asset("js/admin/charts/charts.js") }}'></script>
 </head>
+@routes
 <body class="layout layout-header-fixed">
 <div class="layout-header">
     <div class="navbar navbar-default">
@@ -69,7 +74,7 @@
                     <ul class="sidenav">
                         @foreach ($menu as $item)
                             <li class="sidenav-item
-                                @if(explode('.', Route::currentRouteName())[0] === explode('.', $item["route"])[0]))
+                                @if(explode('.', Route::currentRouteName())[1] === explode('.', $item["route"])[0]))
                                     active
                                 @endif
                                 ">
@@ -80,7 +85,7 @@
                             </li>
                         @endforeach
                     </ul>
-                </nav>s
+                </nav>
             </div>
         </div>
     </div>
@@ -92,7 +97,28 @@
                         <span class="d-ib">Админпанель</span>
                     </h1>
                 </div>
-                Здравствуй, администратор!
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Средняя стоимость номера:</h5>
+                        <div class="card-text">
+                            <h3 id="result_sum"></h3>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Средняя зарплата:</h5>
+                        <div class="card-text">
+                            <h3 id="result_salary"></h3>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <script src="/js/admin/charts/highcharts.js"></script>
+                <script src="/js/admin/charts/data.js"></script>
+
+                <div id="container2" style="width:100%; height:400px;"></div>
             @show
         </div>
     </div>

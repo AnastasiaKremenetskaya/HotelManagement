@@ -1,3 +1,21 @@
+//DataTables
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+$('#example').DataTable( {
+    paging: false
+} );
+$('#example').DataTable( {
+    scrollY: 400
+} );
+
+// For this specific table we are going to enable ordering
+// (searching is still disabled)
+$('#example').DataTable( {
+    ordering: true,
+    searching: true
+} );
+
 $(document).on('click','.delete_btn',function(e){
     e.preventDefault();
     Swal.fire({
