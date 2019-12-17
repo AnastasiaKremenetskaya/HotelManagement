@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Administrator;
+use App\Cleaner;
 use App\Http\Controllers\AdminPagesController;
 use App\Role;
 use App\Staff;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-class AdministratorsController extends AdminPagesController
+class CleanersController extends AdminPagesController
 {
     private $administratorsInPage = 10;
 
@@ -22,12 +23,12 @@ class AdministratorsController extends AdminPagesController
      */
     public function index()
     {
-        $administrators = Administrator::orderBy('created_at', 'desc')->paginate($this->administratorsInPage);
+        $cleaners = Cleaner::orderBy('created_at', 'desc')->paginate($this->administratorsInPage);
 
         //$administrators = DB::select('select * from administrators order by created_at desc');
 
-        return $this->renderOutputAdmin("administrators.list", [
-            "administrators" => $administrators
+        return $this->renderOutputAdmin("cleaners.list", [
+            "cleaners" => $cleaners
         ]);
     }
 
@@ -40,9 +41,12 @@ class AdministratorsController extends AdminPagesController
     public function create()
     {
         //$roles = Role::all();
+        $rooms = DB::select('select * from rooms');
         $staff = DB::select('select * from staff');
-        return $this->renderOutputAdmin('administrators.form', [
-            'route' => route('admin.administrators.store'),
+
+        return $this->renderOutputAdmin('cleaners.form', [
+            'route' => route('admin.cleaners.store'),
+            'rooms' => $rooms,
             'staff' => $staff
         ]);
     }
@@ -56,11 +60,12 @@ class AdministratorsController extends AdminPagesController
     public function store(Request $request)
     {
         // Create the request
-        Administrator::create([
+        Cleaner::create([
             'staff_id' => $request->staff_id,
+            'room_id' => $request->room_id
         ]);
 
-        return redirect()->route("admin.administrators.index")->withSuccess("Администратор успешно добавлен");
+        return redirect()->route("admin.cleaners.index")->withSuccess("Горничный успешно добавлен");
     }
 
     /**
@@ -72,12 +77,13 @@ class AdministratorsController extends AdminPagesController
     public function edit($id)
     {
         $staff = Staff::all();
-        $administrator = DB::select('select * from administrators where id = :id', ['id' => $id]);//Staff::whereId($id)->first();
 
-        return $this->renderOutputAdmin("administrators.form", [
+        $cleaner = DB::select('select * from cleaners where id = :id', ['id' => $id]);//Staff::whereId($id)->first();
+
+        return $this->renderOutputAdmin("cleaners.form", [
             "staff" => $staff,
-            'administrator' => $administrator,
-            "route" => route("admin.administrators.update", ["id" => $id]),
+            'cleaner' => $cleaner,
+            "route" => route("admin.cleaners.update", ["id" => $id]),
             "update" => true
         ]);
     }
@@ -89,14 +95,15 @@ class AdministratorsController extends AdminPagesController
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Administrator $administrator)
+    public function update(Request $request, Cleaner $cleaner)
     {
 
-        Administrator::whereId($administrator->id)->update([
-            'staff_id' => $request->staff_id
+        Cleaner::whereId($cleaner->id)->update([
+            'staff_id' => $request->staff_id,
+            'room_id' => $request->room_id,
         ]);
 
-        return redirect()->route("admin.administrators.index")->withSuccess("Администратор успешно изменен");
+        return redirect()->route("admin.cleaners.index")->withSuccess("Горничный успешно изменен");
     }
 
     /**
@@ -105,10 +112,10 @@ class AdministratorsController extends AdminPagesController
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cleaner $cleaner)
     {
-        Administrator::whereId($id)->delete();
+        Cleaner::whereId($cleaner->id)->delete();
 
-        return redirect()->route("admin.administrators.index")->withSuccess("Администратор успешно удален");
+        return redirect()->route("admin.cleaners.index")->withSuccess("Горничный успешно удален");
     }
 }

@@ -184,6 +184,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             'administrators' => 'id'
         ]
     ]);
+
+    Route::resource('/cleaners', 'Admin\CleanersController', [
+        'names' => [
+            'index' => 'cleaners.index',
+            'show' => 'cleaners.show',
+            'create' => 'cleaners.create',
+            'update' => 'cleaners.update',
+            'edit' => 'cleaners.edit',
+            'store' => 'cleaners.store',
+            'destroy' => 'cleaners.destroy',
+        ],
+        'parameters' => [
+            'cleaners' => 'id'
+        ]
+    ]);
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

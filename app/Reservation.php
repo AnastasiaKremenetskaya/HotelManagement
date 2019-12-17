@@ -14,4 +14,8 @@ class Reservation extends Model
     public function user() {
         return $this->belongsTo('App\User');
     }
+
+    public function administrator() {
+        return $this->belongsTo(Administrator::class, 'administrator_id');
+    }
 }

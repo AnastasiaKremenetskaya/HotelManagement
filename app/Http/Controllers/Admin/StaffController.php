@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Administrator;
+use App\Cleaner;
 use App\Http\Controllers\AdminPagesController;
 use App\Role;
 use App\Staff;
@@ -40,6 +42,7 @@ class StaffController extends AdminPagesController
     {
         //$roles = Role::all();
         $roles = DB::select('select * from roles');
+
         return $this->renderOutputAdmin('staff.form', [
             'route' => route('admin.staff.store'),
             'roles' => $roles
@@ -54,16 +57,31 @@ class StaffController extends AdminPagesController
      */
     public function store(Request $request)
     {
+        $mess = '';
         // Create the request
-        Staff::create([
+        $id = Staff::create([
             'name' => $request->name,
             'role_id' => $request->role_id,
             'date_of_birth' => $request->date_of_birth,
             'salary' => $request->salary,
             'phone' => $request->phone
-        ]);
+        ])->id;
 
-        return redirect()->route("admin.staff.index")->withSuccess("Пользователь успешно добавлен");
+        if ($request->role_id == 1) {
+            Administrator::create([
+                'staff_id' => $id
+            ]);
+            $mess = ". Наделен полномочиями администратора";
+        }
+        elseif ($request->role_id == 6) {
+            Cleaner::create([
+                'staff_id' => $id
+            ]);
+            $mess = ". Пожалуйста, закрепите за ним комнату в разделе 'Горничные'";
+
+        }
+
+        return redirect()->route("admin.staff.index")->withSuccess("Сотрудник успешно добавлен".$mess);
     }
 
     /**
@@ -106,10 +124,10 @@ class StaffController extends AdminPagesController
      * @param \App\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Staff $staff)
+    public function destroy($id)
     {
-        Staff::whereId($staff->id)->delete();
+        Staff::whereId($id)->delete();
 
-        return redirect()->route("admin.staff.index")->withSuccess("Работник успешно изменен");
+        return redirect()->route("admin.staff.index")->withSuccess("Работник успешно удален");
     }
 }

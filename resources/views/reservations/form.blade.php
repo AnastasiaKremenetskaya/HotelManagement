@@ -27,6 +27,18 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <label for="user">Бронь зарегистрирована администратором:</label>
+                                    <select class="form-control" name="administrator_id">
+                                        @foreach ($administrators as $administrator)
+                                            <option value="{{$administrator->id}}">{{ $administrator->staff->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label for="user">Выберите пользователя</label>
                                     <select class="form-control" name="user_id">
                                         @foreach ($users as $user)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Administrator;
 use App\Breakfast;
 use App\ExtraService;
 use App\Http\Controllers\AdminPagesController;
@@ -25,6 +26,7 @@ class ReservationController extends AdminPagesController
     public function index()
     {
         $reservations = Reservation::orderBy('created_at', 'desc')->paginate($this->reservationsInPage);
+
         return $this->renderOutputAdmin("reservations.list", [
             "reservations" => $reservations
         ]);
@@ -42,12 +44,15 @@ class ReservationController extends AdminPagesController
         $rooms = Room::all();
         $breakfastsInfo = Breakfast::all();
         $extra_serviceInfo = ExtraService::all();
+        $administrators = Administrator::all();
+
         return $this->renderOutputAdmin('reservations.form', [
             'route' => route('admin.reservations.store'),
             'users' => $users,
             'rooms' => $rooms,
             'breakfastsInfo' => $breakfastsInfo,
-            'extra_serviceInfo' => $extra_serviceInfo
+            'extra_serviceInfo' => $extra_serviceInfo,
+            'administrators' => $administrators
         ]);
     }
 
@@ -86,6 +91,7 @@ class ReservationController extends AdminPagesController
         $rooms = Room::all();
         $breakfasts = Breakfast::all();
         $extraservicesInfo = ExtraService::all();
+        $administrators = Administrator::all();
 
         $reservation = Reservation::whereId($id)->first();
         return $this->renderOutputAdmin("reservations.form", [
@@ -93,7 +99,7 @@ class ReservationController extends AdminPagesController
             'rooms' => $rooms,
             'breakfastsInfo' => $breakfasts,
             'extra_serviceInfo' => $extraservicesInfo,
-
+            'administrators' => $administrators,
             "reservation" => $reservation,
             "route" => route("admin.reservations.update", ["id_reservation" => $id]),
             "update" => true

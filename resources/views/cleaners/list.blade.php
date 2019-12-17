@@ -3,7 +3,7 @@
 @section('content')
     <div class="title-bar">
         <h1 class="title-bar-title">
-            <span class="d-ib">Брони</span>
+            <span class="d-ib">Горничные</span>
         </h1>
     </div>
     @if (session('success'))
@@ -11,7 +11,7 @@
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route("admin.reservations.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить бронь</a>
+    <a href="{{ route("admin.cleaners.create") }}" class="btn btn-primary btn-lg btn-warning">Добавить горничного</a>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel">
@@ -23,37 +23,29 @@
                                 <th>
                                     #
                                 </th>
-                                <th>Имя</th>
-                                <th>Номер</th>
-                                <th>Дата заезда</th>
-                                <th>Дата выезда</th>
-                                <th>Дата создания брони</th>
-                                <th>Бронь создана администратором</th>
+                                <th>Горничный</th>
+                                <th>Номер для уборки</th>
+                                <th>Дата создания</th>
+                                <th>Дата изменения</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($reservations as $reservation)
+                            @foreach($cleaners as $cleaner)
                                 <tr>
                                     <td>
-                                        {{ $loop->iteration + ($reservations->currentpage() - 1) * $reservations->perpage() }}
+                                        {{ $loop->iteration + ($cleaners->currentpage() - 1) * $cleaners->perpage() }}
                                     </td>
                                     <td>
-                                        <strong>{{ $reservation->user->name }}</strong>
+                                        <strong>{{ $cleaner->staff->name }}</strong>
                                     </td>
                                     <td>
-                                        <p>{{ $reservation->room->classification }}</p>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $reservation["arrival"] }} </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $reservation["departure"] }} </strong>
+                                        <strong>{{ $cleaner->room_id }}</strong>
                                     </td>
                                     <td class="maw-320">
-                                        <strong>{{ $reservation["created_at"] }} </strong>
+                                        {{ $cleaner["created_at"] }}
                                     </td>
-                                    <td class="maw-320">
-                                        <strong>{{ $reservation->administrator->name ?? ''}} </strong>
+                                    <td>
+                                        {{ $cleaner["updated_at"] }}
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right dropdown">
@@ -63,13 +55,13 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
-                                                    <a href="{{ route("admin.reservations.edit", ["id_reservation" => $reservation["id"]]) }}">Изменить</a>
+                                                    <a href="{{ route("admin.cleaners.edit", ["id" => $cleaner["id"]]) }}">Изменить</a>
                                                 </li>
                                                 <li>
                                                     <a href="" class="delete_btn">
                                                         Удалить
                                                         <form class="hidden_form" method="post"
-                                                              action="{{ route("admin.reservations.destroy", ["id_reservation" => $reservation["id"]]) }}">
+                                                              action="{{ route("admin.cleaners.destroy", ["id" => $cleaner["id"]]) }}">
                                                             @csrf
                                                             @method("DELETE")
                                                         </form>
@@ -86,7 +78,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="dataTables_paginate paging_simple_numbers" id="demo-dynamic-tables-2_paginate">
-                                {{ $reservations->render() }}
+                                {{ $cleaners->render() }}
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ class CreateCleanersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('staff_id')->unsigned();
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade');
-            $table->bigInteger('room_id')->unsigned();
+            $table->bigInteger('room_id')->unsigned()->nullable();
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
             $table->timestamps();
         });

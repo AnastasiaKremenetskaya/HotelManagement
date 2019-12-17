@@ -43,9 +43,15 @@ return [
     ],
     [
         "name" => "Администраторы",
-        "ico" => "fa-male",
+        "ico" => "fa-phone",
         "route" => "admin.administrators.index"
     ],
+    [
+        "name" => "Горничные",
+        "ico" => "fa-tint",
+        "route" => "admin.cleaners.index"
+    ],
+
     [
         "name" => "Вернуться на сайт",
         "ico" => "fa-backward",
